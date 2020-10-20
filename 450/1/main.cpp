@@ -18,7 +18,7 @@ int main()
         int min_y=0;
         int max_y=n;
         int i=0;
-        while(min_x<max_x || min_y<max_y)
+        while(min_x<max_x && min_y<max_y)
         {
             //to print a rigth move
             for(int j=min_y;j<max_y;j++)
@@ -27,35 +27,30 @@ int main()
             }
             min_x++;
             
-            cout<<endl;
+            
             //down move
             for(int j=min_x;j<max_x;j++)
+            {
             cout<<mat[j][max_y-1]<<" ";
+            }
             max_y--;
-cout<<endl;
             // left move
+            if(min_x<max_x)
             for(int j=max_y-1;j>=min_y;j--)
             {
                 cout<<mat[max_x-1][j]<<" ";
             }
             max_x--;
-           cout<<endl; // if(i==0)
-            // {
-            //     cout<<"\n========="<<endl;
-            //     cout<<min_y<<endl;
-            //     cout<<"========="<<endl;
-            //     cout<<"\n========="<<endl;
-            //     cout<<max_x<<" "<<min_x<<endl;
-            //     cout<<"========="<<endl;
-            // }
+    
             //up move
+            if(min_y<max_y)
             for(int j=max_x-1;j>=min_x;j--)
             {
                 cout<<mat[j][min_y]<<" ";
             }
             min_y++;
             i++;
-            cout<<endl;
+     
         }
         cout<<endl;
     }
