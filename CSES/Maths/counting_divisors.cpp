@@ -10,12 +10,21 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+    ll divi[1000005];
+    for(ll i=1;i<1000005;i++)
+    {
+        for(ll j=i;j<1000005;j+=i)
+        {
+            divi[j]++;
+        }
+    }
     ll n;
     cin>>n;
-    ll sum=0;
-    for(int j=1;j<=n;j++)
-    {    
-        sum+=((j%mod)*((n/j)%mod))%mod;
+    while(n--)
+    {
+        ll q;
+        cin>>q;
+        cout<<divi[q]<<endl;
     }
-    cout<<sum%mod<<endl;
+    return 0; 
 }
