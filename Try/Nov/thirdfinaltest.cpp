@@ -37,27 +37,20 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
 	// int t=abs(rand())%10+1;
-    int t=30;
-	// cin>>t;
-    cout<<t<<endl;
+    int t;
+	cin>>t;
+    // cout<<t<<endl;
 	while(t--)
 	{
-        cout<<"========================"<<endl;
+        // cout<<"========================"<<endl;
 		int n,k;
-        n=abs(rand())%20+1;
-        k=abs(rand())%5;
-		// cin>>n>>k;
-        cout<<n<<" "<<k<<endl;
-		// string given;
-		// cin>>given;
-        char given[n];
-        char arr[]={'M','I',':'};
-        for(int i=0;i<n;i++)
-        {
-            int temp=abs(rand())%3;
-            given[i]=arr[temp];
-        }
-    rep(i,n) cout<<given[i]<<" ";cout<<endl;
+        // n=abs(rand())%20+1;
+        // k=abs(rand())%5;
+		cin>>n>>k;
+        // cout<<n<<" "<<k<<endl;
+		string given;
+		cin>>given;
+        // rep(i,n) cout<<given[i]<<" ";cout<<endl;
 		vector<int> Xis;
 
 		vector<int> Ms;
@@ -91,9 +84,9 @@ int main() {
 		
 		}//nums loop end
         // rep(i,n) cout<<i%10<<" ";cout<<endl; 
-// 		for(int i=0;i<n;i++)
-// 		cout<<Cs[i]<<" ";
-// 		cout<<endl;
+		// for(int i=0;i<n;i++)
+		// cout<<Cs[i]<<" ";
+		// cout<<endl;
 		Xis.push_back(n);
 
 		int ans=0;
