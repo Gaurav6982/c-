@@ -13,7 +13,9 @@ int main(){
     int n;
     cin>>n;
     int arr[n];
-    rep(i,n) cin>>arr[i];
+    map<int,int> freq;
+    rep(i,n){cin>>arr[i];freq[arr[i]]++;}
+    
     stack<int> s;
     vector<int> ans;
     // ans.push_back(-1);
@@ -22,13 +24,13 @@ int main(){
     {
         if(s.empty())
         ans.push_back(-1);
-        else if(s.top()>arr[i])
+        else if(freq[s.top()]>freq[arr[i]])
         {
             ans.push_back(s.top());
         }
         else
         {
-            while(!s.empty()&&s.top()<=arr[i])
+            while(!s.empty()&&freq[s.top()]<=freq[arr[i]])
             s.pop();
             ans.push_back(s.empty()?-1:s.top());
         }
@@ -41,8 +43,6 @@ int main(){
 }
 
 /*
-
-4
-4 5 2 25
-5 25 25 -1 
+10
+1 1 1 2 2 2 2 11 3 3
 */
