@@ -4,33 +4,11 @@
 #define mod 1000000007
 #define rep(i,n) for(int i=0;i<n;i++)
 using namespace std;
-int calculate_sij(int Cs[],int pos,int lor,int start,int end,char dir)
-{
-    int count=0;
-    if(dir=='l')
-    {
-        if(lor<=start)
-        {
-            count=Cs[pos]-Cs[start+1];
-        }
-        else
-        {
-            count=Cs[pos]-Cs[lor+1];
-        }
-    }
-    else if(dir=='r')
-    {
-        if(lor>=end)
-        {
-            count=Cs[end-1]-Cs[pos];
-        }
-        else
-        {
-            count=Cs[lor-1]-Cs[pos];
-        }
-    }
-    return count;   
-}
+// int calculate_sij(int Cs[],int pos,int left,int start,int end)
+// {
+
+//     return 0;   
+// }
 
 int main() {
     ios_base::sync_with_stdio(false);
@@ -102,7 +80,7 @@ int main() {
                 int pos=*m;
                 int left=(pos-k-1);
                 int right=(pos+k+1);
-                // int sij_left=Cs[n-1]!=0?calculate_sij(Cs,pos,left,start,end,'l'):0;
+                // int sij_left=Cs[n-1]!=0?calculate_sij(Cs,pos,left,start,end):0;
                 // int sij_right=Cs[n-1]!=0?calculate_sij(Cs,pos,right,start,end,'r'):0;
                 // cout<<"sij_left "<<sij_left<<"sij_right "<<sij_right<<" ";
                 left=(left)>start?(left):start;
@@ -111,17 +89,15 @@ int main() {
                 // cout<<"pos "<<pos<<" left "<<left<<" right "<<right<<endl;
                 //for left
                 std::vector<int>::iterator i_left=upper_bound(Is.begin(),Is.end(),left);
-                
-                if(i_left!=Is.end() && (*i_left)<pos)
+                for(;(*i_left)<pos && i_left!=Is.end();i_left++)
                 {
-                    // cout<<"inhere"<<endl;
-                    // cout<<"i_left: "<<(*i_left)<<endl;
                     if((k+1-(pos-(*i_left))-(Cs[pos]-Cs[(*i_left)]))>0)
                     {
-                        // cout<<"left:"<<(k+1)<<(pos-(*i_left))<<(Cs[(*i_left)]-Cs[pos])<<endl;
+                        // cout<<"i_left: "<<(*i_left)<<endl;
                         found=true;
                         Is.erase(i_left);
                         ans++;
+                        break;
                     }
                 }
 
@@ -129,17 +105,14 @@ int main() {
                 if(found==false)
                 {
                     std::vector<int>::iterator i_right=upper_bound(Is.begin(),Is.end(),pos);
-                    
                     if(i_right!=Is.end() && (*i_right)<right)
                     {
-                        // cout<<"i_right "<<(*i_right)<<endl;
+                        // cout<<"right: "<<(k+1-((*i_right)-pos)-(Cs[pos]-Cs[(*i_right)]))<<endl;
                         if((k+1-((*i_right)-pos)-(Cs[(*i_right)]-Cs[pos]))>0)
                         {
-                            // cout<<"right: "<<(k+1-((*i_right)-pos)-(Cs[pos]-Cs[(*i_right)]))<<endl;
-                            Is.erase(i_right);
-                            ans++;
+                        Is.erase(i_right);
+                        ans++;
                         }
-                       
                     }
                 }
             }
