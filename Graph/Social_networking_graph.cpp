@@ -6,22 +6,31 @@
 
 using namespace std;
 vector<int> adj[1000001];
-int visited[1000001];
-int ans=0;
-void dfs(int a,int dist,int b)
+int visited[1000001]={0};
+int dist[1000001]={0};
+int levels[1000001]={0};
+void bfs(int a,int b)
 {
+    queue<int> q;
+    q.push(a);
     visited[a]=1;
-    if(dist==b)
-    ans++;
-    for(int i=0;i<adj[a].size();i++)
+    while(!q.empty())
     {
-        int child=adj[a][i];
-        if(visited[child]==0)
+        int node=q.front();
+        q.pop();
+        for(int i=0;i<adj[node].size();i++)
         {
-            dfs(child,dist+1,b);
+            int child=adj[node][i];
+            if(visited[child]==0)
+            {
+                visited[child]=1;
+                dist[child]=dist[node]+1;
+                levels[dist[child]]++;
+                q.push(child);
+            }
         }
-
     }
+    
 }
 int main(){
     ios_base::sync_with_stdio(false);
@@ -42,10 +51,9 @@ int main(){
     {
         int a,b;
         cin>>a>>b;
-        rep(i,n) visited[i]=0;
-        ans=0;
-        dfs(a,0,b);
-        cout<<ans<<endl;
+        rep(i,n) visited[i]=0,levels[i]=0,dist[i]=0;
+        bfs(a,b);
+        cout<<levels[b]<<endl;
     }
     
     return 0;
