@@ -5,11 +5,12 @@
 #define rep(i,n) for(int i=0;i<n;i++)
 
 using namespace std;
-vector<int> adj[100001];
-vector<bool> visited;
-vector<int> in,low;
+vector<int> adj[10001];
+bool visited[10001];
+int in[10001],low[10001];
 int timer;
-vector<int> points;
+// int ans;
+set<int> AP;
 void dfs(int node,int parent)
 {
     visited[node]=true;
@@ -20,47 +21,48 @@ void dfs(int node,int parent)
         int child=adj[node][i];
         if(child==parent) continue;
         if(visited[child])
-        {
-            low[node]=min(low[node],in[child]);
-        }
+        low[node]=min(low[node],in[child]);
         else
         {
-            dfs(child,node);
+             dfs(child,node);
             low[node]=min(low[node],low[child]);
             if(low[child]>=in[node] && parent!=-1)
-            {
-                points.push_back(node);
-            }
+            AP.insert(node);
             children++;
         }
         
     }
     if(parent==-1 && children>1)
-    points.push_back(node);
+    AP.insert(node);
 }
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     int n,m;
-    cin>>n>>m;
-    timer=0;
-    visited.assign(n+1, false);
-    in.assign(n+1, -1);
-    low.assign(n+1, -1);
-    while(m--)
+    while(1)
     {
-        int a,b;
-        cin>>a>>b;
-        adj[a].push_back(b);
-        adj[b].push_back(a);
-    }
-    for (int i = 1; i <= n; ++i) {
-        if (!visited[i])
-            dfs (i,-1);
-    }
-    cout<<points.size()<<endl;
-    rep(i,points.size()) cout<<points[i]<<" ";
+        cin>>n>>m;
+        if(n==0 && m==0)
+        break;
+        timer=0;
+        AP.clear();
+        for(int i=1;i<=n;i++)
+        {
+            adj[i].clear();
+            visited[i]=false;
+            in[i]=low[i]=-1;
+        }
+        while(m--)
+        {
+            int a,b;
+            cin>>a>>b;
+            adj[a].push_back(b);
+            adj[b].push_back(a);
+        }
+        dfs(1,-1);
+        cout<<AP.size()<<endl;
 
+    }
     return 0;
 }

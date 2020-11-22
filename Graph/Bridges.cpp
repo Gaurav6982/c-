@@ -28,10 +28,10 @@ void dfs(int node,int parent)
             //forward edge
             dfs(child,node);
 
+            low[node]=min(low[node],low[child]);
             if(low[child]>in[node])
             cout<<node<<" - "<<child<<" is a bridge"<<endl;
 
-            low[node]=min(low[node],low[child]);
         }
         
     }
