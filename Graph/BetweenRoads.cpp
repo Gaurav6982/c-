@@ -9,8 +9,9 @@ vector<int> adj[100001];
 int visited[100001];
 int low[100001];
 int in[100001];
-int timer;
+int timer=0;
 bool has_bridge=false;
+vector<pair<int,int> > ans;
 void dfs(int node,int parent)
 {
     visited[node]=1;
@@ -21,16 +22,22 @@ void dfs(int node,int parent)
     {
         int child=adj[node][i];
         if(child==parent) continue;
-        if(visited[child]==1)
+        if(visited[child])
         {
             low[node]=min(low[node],in[child]);
+            if(in[child]<in[node])
+            ans.push_back(make_pair(node,child));
         }
         else
         {
             dfs(child,node);
 
-            if(low[child]>=in[node])
+            if(low[child]>in[node])
+            {
                 has_bridge=true;
+                return;
+            }
+            ans.push_back(make_pair(node,child));
 
             low[node]=min(low[node],low[child]);
         }
@@ -45,12 +52,13 @@ int main(){
     cin>>n>>m;
     while(m--)
     cin>>a>>b,adj[a].push_back(b),adj[b].push_back(a);
-    dfs(1,0);
-    if(has_bridge==true)
+    dfs(1,-1);
+    if(has_bridge)
     cout<<0;
     else
     {
-        cout<<"YES"<<endl;
+        // cout<<"+++++++++++"<<endl;
+        rep(i,ans.size()) cout<<ans[i].first<<" "<<ans[i].second<<endl;
     }
     
     return 0;

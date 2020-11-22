@@ -6,11 +6,11 @@
 
 using namespace std;
 vector<int> adj[100];
-bool vis[100]={false},in[100],low[100];
-int timer;//golbal variable initiallized as 0;
+int vis[100],in[100],low[100];
+int timer=0;//golbal variable initiallized as 0;
 void dfs(int node,int parent)
 {
-    vis[node]=true;
+    vis[node]=1;
     in[node]=low[node]=timer;
     timer++;
 
@@ -43,6 +43,7 @@ int main(){
     int n,m;
     cin>>n>>m;
     // int first=-1;
+    // rep(i,100) vis[i]=false;
     while(m--)
     {
         int a,b;
