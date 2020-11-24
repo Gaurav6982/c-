@@ -5,13 +5,13 @@
 #define rep(i,n) for(int i=0;i<n;i++)
 
 using namespace std;
-vector<pair<int,int> > adj[100001];
-int visited[100001];
+vector<pair<ll,ll> > adj[100001];
+ll visited[100001];
 // int dist[100001];
-int find_min(int dist[],int n)
+ll find_min(ll dist[],ll n)
 {
-    int min_vertex=-1;
-    for(int i=1;i<=n;i++)
+    ll min_vertex=-1;
+    for(ll i=1;i<=n;i++)
     {
         if(!visited[i])
         {
@@ -23,21 +23,26 @@ int find_min(int dist[],int n)
     }
     return min_vertex;
 }
-void find(int dist[],int n)
+void find(ll dist[],ll n)
 {
-    for(int i=1;i<=n;i++)
+    priority_queue<pair<ll,ll> ,vector<pair<ll,ll> >, greater<pair<ll,ll> > > q;
+    q.push(make_pair(0,1));
+    while(!q.empty())
     {
-        int min_vertex=find_min(dist,n);
+        ll min_vertex=q.top().second;
+        // int weight=q.top().first;
+        q.pop();
         if(!visited[min_vertex]){
             visited[min_vertex]=1;
         for(int j=0;j<adj[min_vertex].size();j++)
         {
-            pair<int,int> child=adj[min_vertex][j];
+            pair<ll,ll> child=adj[min_vertex][j];
             
             if(!visited[child.first])
             {
                 if(dist[min_vertex]+child.second<dist[child.first])
                 dist[child.first]=dist[min_vertex]+child.second;
+                q.push(make_pair(dist[child.first],child.first));
             }
         }}
     }
@@ -64,8 +69,8 @@ int main(){
     //     }
     //     cout<<endl;
     // }
-    int dist[n+1];
-    for(int i=2;i<=n;i++) dist[i]=INT_MAX;
+    ll dist[n+1];
+    for(int i=2;i<=n;i++) dist[i]=LONG_MAX;
     dist[1]=0;
     find(dist,n);
     for(int i=1;i<=n;i++) cout<<dist[i]<<" ";
