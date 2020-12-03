@@ -5,26 +5,17 @@
 #define rep(i,n) for(int i=0;i<n;i++)
 
 using namespace std;
-vector<pair<int,ll> > adj[100001];
-struct edges{
-    int from;
-    int to;
-    ll weight;
-};
-ll dist[100001];
-void bellman(int n,int m,vector<edges>& edgelist)
+void floyd(int n,int m,vector<ll> dp[])
 {
-    for(int i=0;i<n-1;i++)
+    for(int i=0;i<n+1;i++)
     {
-        for(int i=0;i<edgelist.size();i++)
+        for(int j=0;j<n+1;j++)
         {
-            int a=edgelist[i].from;
-            int b=edgelist[i].to;
-            int w=edgelist[i].weight;
-            if(dist[a]==LONG_MAX) continue;
-            if(dist[a]+w<dist[b])
-            dist[b]=dist[a]+w;
-            
+            for(int k=0;k<n+1;k++)
+            {
+                if(dp[j][i]<LONG_MAX && dp[i][k]<LONG_MAX)
+                dp[j][k]=min(dp[j][k],dp[j][i]+dp[i][k]);
+            }
         }
     }
 }
@@ -34,36 +25,33 @@ int main(){
     cout.tie(NULL);
     int n,m,q;
     cin>>n>>m>>q;
-    rep(i,n+1) dist[i]=LONG_MAX;
-    dist[0]=dist[1]=0;
-    vector<edges> edgelist;
+    vector<ll> dp[n+1];
+    for(int i=0;i<n+1;i++)
+    {
+        dp[i]=vector<ll>(n+1,LONG_MAX);
+        dp[i][i]=0;
+    }
     while(m--)
     {
         int a,b;
         ll c;
         cin>>a>>b>>c;
-        edges temp;
-        temp.from=a;
-        temp.to=b;
-        temp.weight=c;
-        edgelist.push_back(temp);
-        adj[a].push_back(make_pair(b,c));
-        adj[b].push_back(make_pair(a,c));
+        if(c<dp[a][b])
+        dp[a][b]=c;
+        if(c<dp[b][a]);
+        dp[b][a]=c;   
     }
-    bellman(n,m,edgelist);
+    
+    floyd(n,m,dp);
     while(q--)
     {
         int a ,b;
 
         cin>>a>>b;
-        if(a<b) swap(a,b);
-        if(dist[a]==LONG_MAX||dist[b]==LONG_MAX)
+        if(dp[a][b]!=LONG_MAX)
+        cout<<dp[a][b]<<endl;
+        else 
         cout<<-1<<endl;
-        else
-        {
-            cout<<dist[a]-dist[b]<<endl;
-        }
-        
     }
     return 0;
 }
