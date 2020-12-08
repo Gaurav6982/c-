@@ -93,7 +93,8 @@ int main(){
         // for(int i=0;i<substrings.size();i++)
         // cout<<subs[i]<<endl;
         int ans=subs.size();
-        for(int i=1;i<subs.size();i++)
+        // cout<<"size:"<<ans<<endl;
+        for(int i=0;i<subs.size();i++)
         {
             string sub=subs[i];
 
@@ -103,8 +104,16 @@ int main(){
             {
                 if(subs[j].length()>sub.length()) break;
                 if(not_equal_one(sub,subs[j])) continue;
-                if(find(subs[i],subs[j])) ans--;
+                if(find(subs[i],subs[j]))
+                {
+                    // cout<<"subtracted for :"<<sub<<" "<<subs[j]<<endl;
+                    // std::vector<string>::iterator in=std::find (subs.begin(), subs.end(), subs[j]);
+                    // subs.erase(in);
+                    subs[j]="";
+                    ans--;
+                }
             }
+            // cout<<ans<<endl;
         }
         cout<<ans<<endl;
         
