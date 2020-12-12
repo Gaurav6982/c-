@@ -9,7 +9,7 @@ vector<pair<int,ll> > adj[100001];
 ll dist[100001];
 ll dis[100001];
 bool visited[100001];
-int parents[100001]={-1};
+// int parents[100001]={-1};
 void djikstras()
 {
     priority_queue<pair<ll,pair<int,int> >, vector<pair<ll,pair<int,int> > > , greater<pair<ll,pair<int,int> > > > q; //weight,node,coupon applied or not
@@ -17,32 +17,28 @@ void djikstras()
     while(!q.empty())
     {
         int min_vertex=q.top().second.first;
-        int cost=q.top().first;
+        ll cost=q.top().first;
         int coupon=q.top().second.second;
         q.pop();
 
-        
+        visited[min_vertex]=true;
             for(int i=0;i<adj[min_vertex].size();i++)
             {
                 int child=adj[min_vertex][i].first;
-                
+                if(visited[child]) continue;
                     ll weight=adj[min_vertex][i].second;
-                        parents[child]=min_vertex;
+                        // parents[child]=min_vertex;
                     if(coupon==1)
                     {
                         if(dis[min_vertex]+weight<dis[child])
                         dis[child]=dis[min_vertex]+weight;
-                        if(dist[min_vertex]+weight<dist[child])
-                        dist[child]=dist[min_vertex]+weight;
-                        q.push(make_pair(dist[child],make_pair(child,1)));
+                        q.push(make_pair(dis[child],make_pair(child,1)));
                     }
                     else
                     {
-                        if(dist[min_vertex]+weight<dist[child])
-                        dist[child]=dist[min_vertex]+weight;
-                        if(dist[min_vertex]+floor(weight/2)<dis[child])
-                        dis[child]=dist[min_vertex]+floor(weight/2);
+                        dist[child]=min(dist[child],dist[min_vertex]+weight);
                         q.push(make_pair(dist[child],make_pair(child,0)));
+                        dis[child]=min(dis[child],min(dis[min_vertex]+weight,dist[min_vertex]+weight/2));
                         q.push(make_pair(dis[child],make_pair(child,1)));
                     }
             }
@@ -88,7 +84,7 @@ int main(){
     // for(int i=1;i<=n;i++)
     // cout<<dist[i]<<" ";
     // cout<<endl;
-    cout<<dis[n]<<endl;
+    cout<<min(dist[n],dis[n])<<endl;
     // cout<<max_val<<endl;
     // cout<<dist[n]-max_val+floor(max_val/2)<<endl;
     return 0;

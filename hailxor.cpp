@@ -58,7 +58,7 @@ int main(){
             i++;
             // print_arr(arr,n);
         }
-        // ll rem=x-i;
+        ll rem=x-i;
         if(n==2 && rem>0 && rem%2!=0)
         {
             arr[n-1]^=1;

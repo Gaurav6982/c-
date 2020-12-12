@@ -38,12 +38,17 @@ int ones(string a,int i,int j)
     }
     return one;
 }
+map<string,string> pairs;
 bool find(string a,string b)
 {
+    std::map<string,string>::iterator st=pairs.find(a);
+    if(st!=pairs.end())
+    if(st->second==b)
+    return true;
     int i=0,j=a.length()-1;
+    string actual_b=b;
     while(i<j)
     {
-        // cout<<a<<" "<<b<<endl;
         if(a[i]==b[i] && a[j]==b[j])
         {
             i++;
@@ -71,7 +76,7 @@ bool find(string a,string b)
                     if(b[k]=='1')
                     {
                         actual_j=k;
-                        if(k!=j && ones(b,i,k)%2==0 && b[k]==a[i])
+                         if(ones(b,i,k)%2==0 && b[k]==a[i])
                         break;
                     }
                 }
@@ -80,29 +85,54 @@ bool find(string a,string b)
             }
             else if(isPalindrome(b,i,j))
             {
-                if(ones_in_b==2)
-                return false;
+               // if(ones_in_b==2)
+                // return false;
 
                 int k;
-                int temp=2;
+                // int temp=2;
                 for(k=j;k>=i;k--)
                 {
-                    if(temp==0 && b[k]==a[i])
-                    break;
-                    if(b[k]=='1')
+                    // if(ones(b,i,k)%2==0 && b[k]==a[i])
+                    // break;
+                    if(b[k]==a[i])
                     {
                         actual_j=k;
-                        temp--;
+                        // temp--;
+                        if(ones(b,i,k)%2==0)
+                        break;
                     }
                 }
-                if(k==j-1)
+                if(k<=i)
                 return false;
+            }
+            else if(b[j]!=a[i])
+            {
+                int k;
+                for(k=j;k>=i;k--)
+                {
+                    if(b[k]==a[i])
+                    {
+                        actual_j=k;
+                        if(k!=j && ones(b,i,k)%2==0)
+                        {
+                            // cout<<"break hua"<<endl;
+                            break;
+                        }
+                    }
+                }
+                // cout<<k<<" "<<j<<" "<<i<<endl;
+                if(k<=i)
+                return false;
+                // cout<<"idhar aaya"<<endl;
             }
             rotate(b,i,actual_j);
         }
     }
     if(a.compare(b)==0)
-    return true;
+    {
+        pairs.insert(make_pair(a,actual_b));
+        return true;
+    }
     return false;
 }
 bool comp(string a,string b)
@@ -131,41 +161,31 @@ int main(){
                 // q.push(make_pair(j,sub));
             }
         }
-        vector<string> subs;
+        // vector<string> subs;
         std::set<pair<int,string> >::iterator it=substrings.begin();
+        int ans=substrings.size();
+        // cout<<"size:"<<ans<<endl;
         for(;it!=substrings.end();it++)
         {
-            string s=(*it).second;
-            // cout<<s<<endl;
-            subs.push_back(s);
-            // subs.push(make_pair(s.length(),s));
-        }
-        // sort(subs.begin(),subs.end(),comp);
-        // for(int i=0;i<substrings.size();i++)
-        // cout<<subs[i]<<endl;
-        int ans=subs.size();
-        // cout<<"size:"<<ans<<endl;
-        for(int i=0;i<subs.size();i++)
-        {
-            string sub=subs[i];
+            string sub=(*it).second;
 
             if(sub.length()<3) continue;
-            std::vector<string>::iterator in=std::find (subs.begin(), subs.end(), subs[i]);
+            std::set<pair<int,string> >::iterator in=it;
             // for(int j=i+1;j<subs.size();j++)
             in++;
-            for(;in!=subs.end();in++)
+            for(;in!=substrings.end();in++)
             {
-                if((*in).length()<sub.length()) continue;
-                if((*in).length()>sub.length()) break;
-                if(ones(sub,0,sub.length()-1)!=ones((*in),0,(*in).length()-1)) continue;
+                if((*in).second.length()<sub.length()) continue;
+                if((*in).second.length()>sub.length()) break;
+                if(ones(sub,0,sub.length()-1)!=ones((*in).second,0,(*in).second.length()-1)) continue;
                 // string first=subs[i];
                 // string second=subs[j];
                 // cout<<subs[i]<<" "<<subs[j]<<endl;
-                if(find(subs[i],(*in)))
+                if(find(sub,(*in).second))
                 {
                     // cout<<"subtracted for :"<<sub<<" "<<subs[j]<<endl;
                     // std::vector<string>::iterator in=std::find (subs.begin(), subs.end(), subs[j]);
-                    subs.erase(in);
+                    substrings.erase(in);
                     // subs[j]="";
                     // j--;
                     in--;
