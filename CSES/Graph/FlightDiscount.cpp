@@ -16,30 +16,47 @@ void djikstras()
     q.push(make_pair(0,make_pair(1,0)));
     while(!q.empty())
     {
-        int min_vertex=q.top().second.first;
-        ll cost=q.top().first;
-        int coupon=q.top().second.second;
+        ll d=q.top().first;
+        int u=q.top().second.first;
+        int f=q.top().second.second;
         q.pop();
-
-        visited[min_vertex]=true;
-            for(int i=0;i<adj[min_vertex].size();i++)
+        // if(visited[u]) continue;
+        if(visited[u]) continue;
+        if(f==1)
+        {
+            if(dis[u]<d) continue;
+        }
+        if(f==0)
+        {
+            if(dist[u]<d) continue;
+        }
+        // visited[u]=true;
+            for(int i=0;i<adj[u].size();i++)
             {
-                int child=adj[min_vertex][i].first;
-                if(visited[child]) continue;
-                    ll weight=adj[min_vertex][i].second;
+                int child=adj[u][i].first;
+                // if(visited[child]) continue;
+                    ll weight=adj[u][i].second;
                         // parents[child]=min_vertex;
-                    if(coupon==1)
+                    if(f==1)
                     {
-                        if(dis[min_vertex]+weight<dis[child])
-                        dis[child]=dis[min_vertex]+weight;
+                        if(d+weight<dis[child])
+                        {
+                        dis[child]=d+weight;
                         q.push(make_pair(dis[child],make_pair(child,1)));
+                        }
                     }
                     else
                     {
-                        dist[child]=min(dist[child],dist[min_vertex]+weight);
+                        if(d+weight<dist[child])
+                        {
+                        dist[child]=d+weight;
                         q.push(make_pair(dist[child],make_pair(child,0)));
-                        dis[child]=min(dis[child],min(dis[min_vertex]+weight,dist[min_vertex]+weight/2));
+                        }
+                        if(dis[child]>d+weight/2)
+                        {
+                        dis[child]=d+weight/2;
                         q.push(make_pair(dis[child],make_pair(child,1)));
+                        }
                     }
             }
         
