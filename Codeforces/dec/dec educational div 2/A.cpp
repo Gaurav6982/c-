@@ -18,14 +18,14 @@ int main(){
         cin>>a>>b>>c;
         ll sum=a+b+c;
         ll m=min(a,min(b,c));
-        ll x=sum/7;
-        if(x>m|| sum<9)
+        // ll x=sum/7;
+        if( sum%9!=0)
         {
             cout<<"NO"<<endl;
             continue;
         }
-        sum=sum-3*x;
-        if(sum%6==0)
+        // sum=sum-3*x;
+        if(m>=sum/9)
         cout<<"YES"<<endl;
         else
         cout<<"NO"<<endl;
