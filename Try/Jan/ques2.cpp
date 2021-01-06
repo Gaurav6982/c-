@@ -60,13 +60,9 @@ int main(){
             if(boxes==2)
             break;
         }
-        if(boxes==2)
+        if(boxes!=2)
+        count=-1;
         cout<<count<<endl;
-        else
-        {
-            cout<<"-1"<<endl;
-        }
-        
     }
     return 0;
 }

@@ -31,7 +31,7 @@ int main(){
                 right.push_back(temp);
             }
         }
-        cout<<left.size()*right.size();
+        cout<<left.size()*right.size()<<endl;
     }
     
     return 0;
