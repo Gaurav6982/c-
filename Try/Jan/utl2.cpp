@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 #define ll long long
 #define mod 1000000007
@@ -15,21 +15,26 @@ void print_arr(vector<int> temp)
     cout<<endl;
 }
 int smallest;
-void find2(vector<int> arr,int i,int n,int k,int sum,vector<int> temp,int till_now)
+void find2(vector<int> arr,int i,int n,int k,int sum,vector<int> temp,int till_now,vector<int>& till)
 {
     
     if(sum>=k)
     {
-        print_arr(temp);
-        cout<<"================"<<endl;
+        if((int)temp.size()+till_now<ans)
+        {
+            cout<<"+++++++++++++++++"<<endl;
+            print_arr(till);
+            print_arr(temp);
+            cout<<"================"<<endl;
+        }
         ans=std::min((int)temp.size()+till_now,ans);
     }
     if(i==n)
     return;
-    find2(arr,i+1,n,k,sum,temp,till_now);
+    find2(arr,i+1,n,k,sum,temp,till_now,till);
     temp.push_back(arr[i]);
     sum+=arr[i];
-    find2(arr,i+1,n,k,sum,temp,till_now);
+    find2(arr,i+1,n,k,sum,temp,till_now,till);
     return ;
 
 }
@@ -40,8 +45,8 @@ void find(vector<int> arr,int i,int n,int k,int sum,vector<int> temp)
     return;
     if(sum>=k)
     {
-        cout<<"++++++++++++++++++++++++++++"<<endl;
-        print_arr(temp);
+        // cout<<"++++++++++++++++++++++++++++"<<endl;
+        // print_arr(temp);
         smallest=min(smallest,(int)temp.size());
         vector<int> arr1;
         rep(i,n) arr1.push_back(arr[i]);
@@ -61,7 +66,7 @@ void find(vector<int> arr,int i,int n,int k,int sum,vector<int> temp)
         if(storage.find(tel)!=storage.end())
         return;
         storage.insert(tel);
-        find2(arr1,0,arr1.size(),k,0,t,temp.size());
+        find2(arr1,0,arr1.size(),k,0,t,temp.size(),temp);
     }
     if(i==n)
     return;
