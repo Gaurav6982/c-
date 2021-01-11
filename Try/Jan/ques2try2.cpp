@@ -5,7 +5,7 @@
 #define rep(i,n) for(int i=0;i<n;i++)
 
 using namespace std;
-int dp[101][10001][10001];
+int dp[101][1001][1001];
 int find(vector<int> arr,int i,int k,int w1,int w2,int items_1,int items_2)
 {
     if(dp[i][w1][w2]!=-1)
